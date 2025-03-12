@@ -33,7 +33,7 @@ void MarketData::fetch_data() {
     }
 
     std::cout << "Recent Forex Data:" << std::endl;
-    for (size_t i = candles.size() -5; i < candles.size(); i++) {
+    for (size_t i = 0; i < candles.size(); i++) {
           std::cout << candles[i].timestamp << " O:" << candles[i].open
                   << " H:" << candles[i].high << " L:" << candles[i].low
                   << " C:" << candles[i].close << std::endl;

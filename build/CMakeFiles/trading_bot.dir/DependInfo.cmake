@@ -8,9 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/morgan-cooper/qauant-finance/cpp-trading-engine-001/src/MarketData.cpp" "CMakeFiles/trading_bot.dir/src/MarketData.cpp.o" "gcc" "CMakeFiles/trading_bot.dir/src/MarketData.cpp.o.d"
-  "/home/morgan-cooper/qauant-finance/cpp-trading-engine-001/src/PatternMatching.cpp" "CMakeFiles/trading_bot.dir/src/PatternMatching.cpp.o" "gcc" "CMakeFiles/trading_bot.dir/src/PatternMatching.cpp.o.d"
-  "/home/morgan-cooper/qauant-finance/cpp-trading-engine-001/src/main.cpp" "CMakeFiles/trading_bot.dir/src/main.cpp.o" "gcc" "CMakeFiles/trading_bot.dir/src/main.cpp.o.d"
+  "/Users/morgancooper/quant-finance/cpp-trading-engine-001/src/MarketData.cpp" "CMakeFiles/trading_bot.dir/src/MarketData.cpp.o" "gcc" "CMakeFiles/trading_bot.dir/src/MarketData.cpp.o.d"
+  "/Users/morgancooper/quant-finance/cpp-trading-engine-001/src/PatternMatching.cpp" "CMakeFiles/trading_bot.dir/src/PatternMatching.cpp.o" "gcc" "CMakeFiles/trading_bot.dir/src/PatternMatching.cpp.o.d"
+  "/Users/morgancooper/quant-finance/cpp-trading-engine-001/src/main.cpp" "CMakeFiles/trading_bot.dir/src/main.cpp.o" "gcc" "CMakeFiles/trading_bot.dir/src/main.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

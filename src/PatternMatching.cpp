@@ -1,12 +1,14 @@
 #include "PatternMatching.h"
 #include <iostream>
 
-PatternMatching::PatternMatching(){}
+PatternMatching::PatternMatching(PatternType type){
+    patternType = type;
+}
 
 std::string PatternMatching::convert_to_binary(const std::vector<Candle>& candles) {
     std::string binary_pattern;
 
-    for (size_t i = 1;  i < candles.size(); i++ ) {
+    for (size_t i = 0;  i < candles.size(); i++ ) {
         if (candles[i].close > candles[i].open) {
             binary_pattern += "1";
         } else { 
@@ -25,13 +27,21 @@ std::vector<std::string> PatternMatching::detect_patterns(const std::vector<Cand
         return patterns;
     }
 
-    std::string binary_sequence = convert_to_binary(candles);
+    std::string sequence;
+    if (patternType == PatternType::BINARY) {
+        sequence = convert_to_binary(candles);
+    } else {
+        std::cerr << "Pattern type not implemented yet!" << std::endl;
+        return patterns;
+    }
 
-    for (size_t i = 0; i<= binary_sequence.size()  - pattern_length; i++) {
-        std::string pattern = binary_sequence.substr(i, pattern_length);
-        patterns.push_back(pattern);
+    for (size_t i = 0; i <= sequence.size() - pattern_length; i++) {
+        patterns.push_back(sequence.substr(i, pattern_length));
     }
 
     return patterns;
 
 }
+
+
+
