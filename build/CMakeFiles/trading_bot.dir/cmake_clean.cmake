@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/trading_bot.dir/config/Config.cpp.o"
+  "CMakeFiles/trading_bot.dir/config/Config.cpp.o.d"
   "CMakeFiles/trading_bot.dir/db/Database.cpp.o"
   "CMakeFiles/trading_bot.dir/db/Database.cpp.o.d"
   "CMakeFiles/trading_bot.dir/db/RedisCache.cpp.o"
@@ -7,6 +9,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/trading_bot.dir/src/DataProcessing.cpp.o.d"
   "CMakeFiles/trading_bot.dir/src/MarketData.cpp.o"
   "CMakeFiles/trading_bot.dir/src/MarketData.cpp.o.d"
+  "CMakeFiles/trading_bot.dir/src/PatternDetection.cpp.o"
+  "CMakeFiles/trading_bot.dir/src/PatternDetection.cpp.o.d"
   "CMakeFiles/trading_bot.dir/src/PatternProcessing.cpp.o"
   "CMakeFiles/trading_bot.dir/src/PatternProcessing.cpp.o.d"
   "CMakeFiles/trading_bot.dir/src/TradeExecution.cpp.o"
