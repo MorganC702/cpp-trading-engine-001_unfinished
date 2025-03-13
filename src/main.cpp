@@ -1,46 +1,46 @@
 #include "MarketData.h"
-#include "PatternMatching.h"
+#include "DataProcessing.h"
+#include "PatternProcessing.h"
+#include "TradeExecution.h"
+#include "RedisCache.h"
+#include "Database.h"
 #include <iostream>
-#include <vector>
-#include <thread>  // Include threading
-#include <mutex>   // For thread-safe output
-
-std::mutex print_mutex;  // Mutex to prevent output overlapping
-
-// Function to run pattern detection for a given length
-void process_pattern_length(int pattern_length, const std::vector<Candle>& historical_data) {
-    PatternMatching patternMatcher(PatternType::BINARY);
-    std::vector<std::string> detected_patterns = patternMatcher.detect_patterns(historical_data, pattern_length);
-
-    // Use mutex to prevent mixed-up console output
-    std::lock_guard<std::mutex> lock(print_mutex);
-    std::cout << "Pattern Length: " << pattern_length << std::endl;
-    for (const auto& pattern : detected_patterns) {
-        std::cout << pattern << std::endl;
-    }
-    std::cout << "-----------------------------" << std::endl;
-}
 
 int main() {
-    MarketData market;
-    market.fetch_data(); 
+    // Step 1: Fetch raw market data
+    DataProcessing data_processor;
+    auto raw_data = data_processor.fetch_market_data();
+    data_processor.preprocess_data(raw_data);
 
-    std::vector<Candle> historical_data = market.get_historical_data();
-    if (historical_data.empty()) {
-        std::cerr << "Error: No historical data available!" << std::endl;
-        return 1;
-    }
+    // Step 2: Detect patterns (only binary for now)
+    PatternProcessing pattern_processor(PatternType::BINARY);
+    
+    // Redis for checking active patterns
+    RedisCache redis;
 
-    std::vector<std::thread> threads;
+    // Trade Execution
+    TradeExecution trade_executor;
 
-    // Create a thread for each pattern length (2-10)
-    for (int length = 2; length <= 20; length++) {
-        threads.emplace_back(process_pattern_length, length, std::ref(historical_data));
-    }
+    // Database for storing detected patterns
+    Database db;
 
-    // Join all threads (wait for all to finish)
-    for (auto& t : threads) {
-        t.join();
+    for (const auto& [pair, candles] : raw_data) {
+        // Detect and process patterns
+        pattern_processor.process_patterns(pair, candles);
+        
+        // Check detected patterns against Redis
+        std::unordered_map<std::string, int> detected_patterns = pattern_processor.detect_patterns(candles, 3, 10);
+
+        for (const auto& [pattern, count] : detected_patterns) {
+            if (redis.is_pattern_active(pair, pattern)) {
+                std::cout << "[Main] Executing trade for active pattern: " << pattern << " in " << pair << std::endl;
+                trade_executor.execute_trade(pair, pattern);
+                redis.remove_active_pattern(pair, pattern); // Prevent duplicate trades
+            } else {
+                std::cout << "[Main] New pattern detected: " << pattern << " in " << pair << std::endl;
+                db.store_pattern(pattern.length(), pattern, candles);
+            }
+        }
     }
 
     return 0;

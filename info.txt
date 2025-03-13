@@ -1,0 +1,18 @@
+1️⃣ DataProcessing:
+   - Fetch live forex data
+   - Preprocess & store in Redis for quick access
+
+2️⃣ PatternProcessing:
+   - Detect patterns from `N` candles
+   - Store them in PostgreSQL (if new)
+   - Check Redis for active patterns
+
+3️⃣ TradeExecution:
+   - If Redis has a profitable pattern → Execute trade
+
+4️⃣ MemoryManager:
+   - Update Redis cache with only high-confidence patterns
+
+5️⃣ Logger:
+   - Store results in PostgreSQL
+   - Log trade performance

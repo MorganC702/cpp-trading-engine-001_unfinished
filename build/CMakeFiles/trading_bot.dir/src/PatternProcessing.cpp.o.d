@@ -1,7 +1,7 @@
-CMakeFiles/trading_bot.dir/src/MarketData.cpp.o: \
- /home/morgan-cooper/qauant-finance/cpp-trading-engine-001/src/MarketData.cpp \
+CMakeFiles/trading_bot.dir/src/PatternProcessing.cpp.o: \
+ /home/morgan-cooper/qauant-finance/cpp-trading-engine-001/src/PatternProcessing.cpp \
  /usr/include/stdc-predef.h \
- /home/morgan-cooper/qauant-finance/cpp-trading-engine-001/include/MarketData.h \
+ /home/morgan-cooper/qauant-finance/cpp-trading-engine-001/include/PatternProcessing.h \
  /usr/include/c++/13/vector /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
@@ -118,9 +118,21 @@ CMakeFiles/trading_bot.dir/src/MarketData.cpp.o: \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
  /usr/include/c++/13/bits/charconv.h \
- /usr/include/c++/13/bits/basic_string.tcc /usr/include/c++/13/iostream \
- /usr/include/c++/13/ostream /usr/include/c++/13/ios \
- /usr/include/c++/13/exception /usr/include/c++/13/bits/exception_ptr.h \
+ /usr/include/c++/13/bits/basic_string.tcc \
+ /usr/include/c++/13/unordered_map \
+ /usr/include/c++/13/bits/unordered_map.h \
+ /usr/include/c++/13/bits/hashtable.h \
+ /usr/include/c++/13/bits/hashtable_policy.h \
+ /usr/include/c++/13/ext/aligned_buffer.h \
+ /usr/include/c++/13/bits/enable_special_members.h \
+ /usr/include/c++/13/bits/node_handle.h \
+ /usr/include/c++/13/bits/erase_if.h \
+ /home/morgan-cooper/qauant-finance/cpp-trading-engine-001/include/MarketData.h \
+ /home/morgan-cooper/qauant-finance/cpp-trading-engine-001/include/TradeExecution.h \
+ /home/morgan-cooper/qauant-finance/cpp-trading-engine-001/include/RedisCache.h \
+ /usr/include/c++/13/iostream /usr/include/c++/13/ostream \
+ /usr/include/c++/13/ios /usr/include/c++/13/exception \
+ /usr/include/c++/13/bits/exception_ptr.h \
  /usr/include/c++/13/bits/cxxabi_init_exception.h \
  /usr/include/c++/13/typeinfo /usr/include/c++/13/bits/nested_exception.h \
  /usr/include/c++/13/bits/ios_base.h /usr/include/c++/13/ext/atomicity.h \
