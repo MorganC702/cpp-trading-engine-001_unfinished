@@ -1,47 +1,89 @@
 #include "MarketData.h"
 #include "DataProcessing.h"
 #include "PatternProcessing.h"
+#include "PatternDetection.h"
 #include "TradeExecution.h"
 #include "RedisCache.h"
 #include "Database.h"
 #include <iostream>
+#include "Config.h"
 
 int main() {
-    // Step 1: Fetch raw market data
+
+      
+    //----------------FETCH MARKET DATA -----------------------------// 
+    //---------------------------------------------------------------// 
+
+    MarketData marketData;
+
+    std::vector filepaths = 
+    {
+        "../data/EURUSD1H.csv",
+        "../data/AUDCAD1H.csv",
+    };
+
+    std::unordered_map<std::string, std::vector<Candle>> raw_data;
+
+    for (const auto& filepath : filepaths) {
+        raw_data[filepath] = marketData.get_historical_data(filepath);
+    }
+
+    
+    //----------------DATA PROCESSING--------------------------------// 
+    //---------------------------------------------------------------// 
+
     DataProcessing data_processor;
-    auto raw_data = data_processor.fetch_market_data();
     data_processor.preprocess_data(raw_data);
 
-    // Step 2: Detect patterns (only binary for now)
-    PatternProcessing pattern_processor(PatternType::BINARY);
-    
-    // Redis for checking active patterns
-    RedisCache redis;
 
-    // Trade Execution
-    TradeExecution trade_executor;
 
-    // Database for storing detected patterns
-    Database db;
+    //----------------PATTERN PROCESSORS-----------------------------// 
+    //---------------------------------------------------------------// 
+   
+    PatternDetection binary_pattern_detector(PatternType::BINARY);
+
+    const int min_binary_pattern_length = 2;
+    const int max_binary_pattern_length = 10;
+
+    std::unordered_map<std::string, std::vector<std::string_view>> detected_binary_patterns;
 
     for (const auto& [pair, candles] : raw_data) {
-        // Detect and process patterns
-        pattern_processor.process_patterns(pair, candles);
-        
-        // Check detected patterns against Redis
-        std::unordered_map<std::string, int> detected_patterns = pattern_processor.detect_patterns(candles, 3, 10);
+        if (candles.size() < min_binary_pattern_length) {
+            std::cerr << "[PatternDetection] Not enough candles for " << pair << " to detect patterns!" << std::endl;
+            continue;
+        }
 
-        for (const auto& [pattern, count] : detected_patterns) {
-            if (redis.is_pattern_active(pair, pattern)) {
-                std::cout << "[Main] Executing trade for active pattern: " << pattern << " in " << pair << std::endl;
-                trade_executor.execute_trade(pair, pattern);
-                redis.remove_active_pattern(pair, pattern); // Prevent duplicate trades
-            } else {
-                std::cout << "[Main] New pattern detected: " << pattern << " in " << pair << std::endl;
-                db.store_pattern(pattern.length(), pattern, candles);
-            }
+        // Detect the latest binary patterns
+        detected_binary_patterns[pair] = binary_pattern_detector
+            .detect_current_binary_patterns(
+                candles, 
+                min_binary_pattern_length, 
+                max_binary_pattern_length
+            );
+
+
+        std::cout << "\n[PatternDetection] Detected Binary Patterns for " << pair << ":\n";
+        int length = min_binary_pattern_length;
+        for (const auto& pattern : detected_binary_patterns[pair]) {
+            std::cout << "Length " << length++ << ": " << pattern << std::endl;
         }
     }
+
+
+
+
+
+
+
+    //----------------ORDER PROCESSING-------------------------------// 
+    //---------------------------------------------------------------// 
+
+    // TradeExecution trade_executor; // Object for exectuting trades
+
+    // RedisCache redis;
+    // Database db;
+
+
 
     return 0;
 }

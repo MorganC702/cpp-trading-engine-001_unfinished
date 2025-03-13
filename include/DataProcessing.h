@@ -5,17 +5,12 @@
 #include <vector>
 #include <string>
 #include "MarketData.h"  // Provides Candle struct (historical data)
+#include "Config.h"
 
 // Class responsible for fetching and preprocessing market data
 class DataProcessing {
 public:
     DataProcessing();  // Constructor
-
-    /**
-     * @brief Fetches market data from the broker API.
-     * @return An unordered_map containing forex pairs and their corresponding candlestick data.
-     */
-    std::unordered_map<std::string, std::vector<Candle>> fetch_market_data();
 
     /**
      * @brief Preprocesses the fetched market data (e.g., filtering, normalizing).

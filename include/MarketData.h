@@ -3,24 +3,23 @@
 
 #include <vector>
 #include <string>
+#include "Config.h"
 
-// Structure to represent a single candlestick
 struct Candle {
-    std::string timestamp;  // Time of the candle
-    double open;   // Opening price
-    double high;   // Highest price
-    double low;    // Lowest price
-    double close;  // Closing price
+    std::string timestamp;  
+    double open;   
+    double high;   
+    double low;    
+    double close;  
 };
 
-// Class for handling market data (fetching and preprocessing)
 class MarketData {
-public:
-    // Constructor
-    MarketData();
+    public:
+        MarketData();
+        std::vector<Candle> get_historical_data(const std::string& identifier);
 
-    // Fetches market data from an API or historical source
-    std::vector<Candle> get_historical_data(const std::string& currency_pair);
+    private:
+        std::vector<Candle> load_data_from_csv(const std::string& filepath);
 };
 
-#endif // MARKET_DATA_H
+#endif
